@@ -17,49 +17,52 @@ import jetbrick.template.TemplateException;
 
 public class JetbrickTemplateEngine implements TemplateEngine {
 
-    private JetEngine jetEngine;
-    
-    public JetbrickTemplateEngine() {
-        jetEngine = JetEngine.create();
-    }
+	private JetEngine jetEngine;
 
-    /**
-     * Constructs a JetBrick template engine.
-     *
-     * @param jetEngine the JetEngine
-     */
-    public JetbrickTemplateEngine(JetEngine jetEngine) {
-        if (null == jetEngine) {
-            throw new IllegalArgumentException("jetEngine must not be null");
-        }
-        this.jetEngine = jetEngine;
-    }
-    
+	public JetbrickTemplateEngine() {
+		jetEngine = JetEngine.create();
+	}
+
+	public JetbrickTemplateEngine(String conf) {
+		jetEngine = JetEngine.create(conf);
+	}
+
+	public JetbrickTemplateEngine(JetEngine jetEngine) {
+		if (null == jetEngine) {
+			throw new IllegalArgumentException("jetEngine must not be null");
+		}
+		this.jetEngine = jetEngine;
+	}
+
+	public JetEngine getJetEngine() {
+		return jetEngine;
+	}
+
 	@Override
 	public void render(ModelAndView modelAndView, Writer writer) throws TemplateException {
 		JetTemplate template = jetEngine.getTemplate(modelAndView.getView());
 		Map<String, Object> modelMap = modelAndView.getModel();
 		JetContext context = new JetContext(modelMap.size());
-		
+
 		Request request = BladeWebContext.request();
 		Session session = request.session();
-		
+
 		Set<String> attrs = request.attributes();
-		if(null != attrs && attrs.size() > 0){
-			for(String attr : attrs){
+		if (null != attrs && attrs.size() > 0) {
+			for (String attr : attrs) {
 				context.put(attr, request.attribute(attr));
 			}
 		}
-		
+
 		Set<String> session_attrs = session.attributes();
-		if(null != session_attrs && session_attrs.size() > 0){
-			for(String attr : session_attrs){
+		if (null != session_attrs && session_attrs.size() > 0) {
+			for (String attr : session_attrs) {
 				context.put(attr, session.attribute(attr));
 			}
 		}
-		
-        context.putAll(modelMap);
-        template.render(context, writer);
+
+		context.putAll(modelMap);
+		template.render(context, writer);
 	}
 
 }

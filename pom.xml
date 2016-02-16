@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.bladejava</groupId>
@@ -9,7 +10,7 @@
 
 	<name>blade-template-engines</name>
 	<url>https://github.com/bladejava/blade-template-engines</url>
-	
+
 	<properties>
 		<maven.compiler.source>1.6</maven.compiler.source>
 		<maven.compiler.target>1.6</maven.compiler.target>
@@ -22,7 +23,8 @@
 
 	<modules>
 		<module>blade-template-jetbrick</module>
-  </modules>
+		<module>blade-template-pebble</module>
+	</modules>
 
 	<repositories>
 		<repository>
@@ -36,7 +38,7 @@
 			</snapshots>
 		</repository>
 	</repositories>
-	
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
