@@ -10,7 +10,7 @@
 
 	<artifactId>blade-template-jetbrick</artifactId>
 	<packaging>jar</packaging>
-	<version>0.0.1</version>
+	<version>0.0.2</version>
 	<name>blade-template-jetbrick</name>
 	<url>https://github.com/bladejava/blade-template-engines/tree/master/blade-template-jetbrick</url>
 
@@ -23,6 +23,12 @@
 			<groupId>com.github.subchen</groupId>
 			<artifactId>jetbrick-template</artifactId>
 		</dependency>
+		<dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.0.1</version>
+            <scope>provided</scope>
+        </dependency>
 	</dependencies>
 
 </project>
