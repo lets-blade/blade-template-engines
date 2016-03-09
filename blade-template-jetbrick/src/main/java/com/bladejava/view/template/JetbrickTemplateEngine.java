@@ -22,7 +22,7 @@ import java.util.Set;
 import javax.servlet.ServletContext;
 
 import com.blade.context.BladeWebContext;
-import com.blade.view.template.ModelAndView;
+import com.blade.view.ModelAndView;
 import com.blade.view.template.TemplateEngine;
 import com.blade.web.http.Request;
 import com.blade.web.http.wrapper.Session;

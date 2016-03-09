@@ -16,7 +16,7 @@
 		<maven.compiler.target>1.6</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<servlet.version>3.0.1</servlet.version>
-		<blade-core.version>1.6.0-alpha</blade-core.version>
+		<blade-core.version>1.6.0M2</blade-core.version>
 		<jetbrick-template.version>2.1.0</jetbrick-template.version>
 		<junit.version>4.12</junit.version>
 	</properties>
@@ -24,6 +24,7 @@
 	<modules>
 		<module>blade-template-jetbrick</module>
 		<module>blade-template-pebble</module>
+		<module>blade-template-velocity</module>
 	</modules>
 
 	<repositories>
