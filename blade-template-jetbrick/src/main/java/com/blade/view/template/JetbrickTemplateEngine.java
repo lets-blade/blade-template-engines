@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bladejava.view.template;
+package com.blade.view.template;
 
 import java.io.Writer;
 import java.util.Map;
@@ -21,7 +21,7 @@ import java.util.Set;
 
 import javax.servlet.ServletContext;
 
-import com.blade.context.BladeWebContext;
+import com.blade.context.ApplicationWebContext;
 import com.blade.view.ModelAndView;
 import com.blade.view.template.TemplateEngine;
 import com.blade.web.http.Request;
@@ -61,7 +61,7 @@ public class JetbrickTemplateEngine implements TemplateEngine {
 		}
 		this.jetEngine = jetEngine;
 	}
-
+	
 	public JetEngine getJetEngine() {
 		return jetEngine;
 	}
@@ -71,8 +71,8 @@ public class JetbrickTemplateEngine implements TemplateEngine {
 		JetTemplate template = jetEngine.getTemplate(modelAndView.getView());
 		Map<String, Object> modelMap = modelAndView.getModel();
 		JetContext context = new JetContext(modelMap.size());
-
-		Request request = BladeWebContext.request();
+		
+		Request request = ApplicationWebContext.request();
 		Session session = request.session();
 
 		Set<String> attrs = request.attributes();

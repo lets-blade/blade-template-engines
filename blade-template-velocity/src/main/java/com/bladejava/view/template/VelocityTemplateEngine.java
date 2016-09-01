@@ -9,7 +9,7 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 
-import com.blade.context.BladeWebContext;
+import com.blade.context.ApplicationWebContext;
 import com.blade.view.ModelAndView;
 import com.blade.view.template.TemplateEngine;
 import com.blade.view.template.TemplateException;
@@ -26,8 +26,7 @@ public class VelocityTemplateEngine implements TemplateEngine {
     public VelocityTemplateEngine() {
         Properties properties = new Properties();
         properties.setProperty("resource.loader", "class");
-        properties.setProperty(
-                "class.resource.loader.class",
+        properties.setProperty("class.resource.loader.class",
                 "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         velocityEngine = new org.apache.velocity.app.VelocityEngine(properties);
     }
@@ -53,7 +52,7 @@ public class VelocityTemplateEngine implements TemplateEngine {
 		
 		Map<String, Object> modelMap = modelAndView.getModel();
 		
-		Request request = BladeWebContext.request();
+		Request request = ApplicationWebContext.request();
 		Session session = request.session();
 
 		Set<String> attrs = request.attributes();

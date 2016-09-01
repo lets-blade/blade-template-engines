@@ -5,7 +5,7 @@ import java.io.Writer;
 import java.util.Map;
 import java.util.Set;
 
-import com.blade.context.BladeWebContext;
+import com.blade.context.ApplicationWebContext;
 import com.blade.view.ModelAndView;
 import com.blade.view.template.TemplateEngine;
 import com.blade.view.template.TemplateException;
@@ -58,7 +58,7 @@ public class PebbleTemplateEngine implements TemplateEngine {
 		
 		Map<String, Object> modelMap = modelAndView.getModel();
 		
-		Request request = BladeWebContext.request();
+		Request request = ApplicationWebContext.request();
 		Session session = request.session();
 
 		Set<String> attrs = request.attributes();
