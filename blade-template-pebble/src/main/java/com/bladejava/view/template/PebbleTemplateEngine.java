@@ -6,11 +6,11 @@ import java.util.Map;
 import java.util.Set;
 
 import com.blade.context.ApplicationWebContext;
-import com.blade.view.ModelAndView;
-import com.blade.view.template.TemplateEngine;
-import com.blade.view.template.TemplateException;
-import com.blade.web.http.Request;
-import com.blade.web.http.wrapper.Session;
+import com.blade.mvc.http.Request;
+import com.blade.mvc.http.wrapper.Session;
+import com.blade.mvc.view.ModelAndView;
+import com.blade.mvc.view.template.TemplateEngine;
+import com.blade.mvc.view.template.TemplateException;
 import com.mitchellbosecke.pebble.PebbleEngine;
 import com.mitchellbosecke.pebble.error.PebbleException;
 import com.mitchellbosecke.pebble.loader.ClasspathLoader;
@@ -28,16 +28,14 @@ public class PebbleTemplateEngine implements TemplateEngine {
 	 * Construct a new template engine using pebble with a default engine.
 	 */
 	public PebbleTemplateEngine() {
-		Loader loader = new ClasspathLoader();
-		loader.setPrefix("");
-		this.engine = new PebbleEngine(loader);
+		engine = new PebbleEngine.Builder().build();
 	}
 
 	/**
 	 * Construct a new template engine using pebble with an engine using a special loader.
 	 */
 	public PebbleTemplateEngine(Loader loader) {
-		this.engine = new PebbleEngine(loader);
+		this.engine = new PebbleEngine.Builder().loader(loader).build();
 	}
 
 	/**
@@ -77,11 +75,11 @@ public class PebbleTemplateEngine implements TemplateEngine {
 		
 		try {
 			PebbleTemplate template = engine.getTemplate(modelAndView.getView());
-			template.evaluate(writer, modelAndView.getModel());
+			template.evaluate(writer, modelMap);
 		} catch (PebbleException e) {
-			e.printStackTrace();
+			throw new TemplateException(e);
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new TemplateException(e);
 		}
 		
 	}

@@ -22,11 +22,11 @@ import java.util.Set;
 import javax.servlet.ServletContext;
 
 import com.blade.context.ApplicationWebContext;
-import com.blade.view.ModelAndView;
-import com.blade.view.template.TemplateEngine;
-import com.blade.web.http.Request;
-import com.blade.web.http.wrapper.Session;
 
+import com.blade.mvc.http.Request;
+import com.blade.mvc.http.wrapper.Session;
+import com.blade.mvc.view.ModelAndView;
+import com.blade.mvc.view.template.TemplateEngine;
 import jetbrick.template.JetContext;
 import jetbrick.template.JetEngine;
 import jetbrick.template.JetTemplate;

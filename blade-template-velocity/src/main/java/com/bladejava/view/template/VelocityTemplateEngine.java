@@ -5,16 +5,17 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import com.blade.mvc.http.Request;
+import com.blade.mvc.http.wrapper.Session;
+import com.blade.mvc.view.ModelAndView;
+import com.blade.mvc.view.template.TemplateEngine;
+import com.blade.mvc.view.template.TemplateException;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 
 import com.blade.context.ApplicationWebContext;
-import com.blade.view.ModelAndView;
-import com.blade.view.template.TemplateEngine;
-import com.blade.view.template.TemplateException;
-import com.blade.web.http.Request;
-import com.blade.web.http.wrapper.Session;
+
 
 public class VelocityTemplateEngine implements TemplateEngine {
 
