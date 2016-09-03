@@ -46,32 +46,22 @@ import jetbrick.template.web.JetWebEngine;
 public class JetbrickTemplateEngine implements TemplateEngine {
 
 	private JetEngine jetEngine;
-
-	private Properties config = new Properties();
+	private Properties config;
+	private String suffix = ".html";
 
 	public JetbrickTemplateEngine() {
-		config.put(JetConfig.TEMPLATE_SUFFIX, ".html");
+		config = new Properties();
+		config.put(JetConfig.TEMPLATE_SUFFIX, suffix);
 		if(StringKit.isNotBlank(Blade.$().config().getBasePackage())){
 			config.put(JetConfig.AUTOSCAN_PACKAGES, Blade.$().config().getBasePackage());
 		}
 		String $classpathLoader = "jetbrick.template.loader.ClasspathResourceLoader";
-		String $webLoader = "jetbrick.template.loader.ServletResourceLoader";
-
-		config.put(JetConfig.TEMPLATE_LOADERS, "$classpathLoader, $webLoader");
-
+		config.put(JetConfig.TEMPLATE_LOADERS, "$classpathLoader");
 		config.put("$classpathLoader", $classpathLoader);
 		config.put("$classpathLoader.root", "/templates/");
 		config.put("$classpathLoader.reloadable", true);
 
-		config.put("$webLoader", $webLoader);
-		config.put("$webLoader.root", "/templates/");
-		config.put("$webLoader.reloadable", true);
-
 		jetEngine = JetEngine.create(config);
-	}
-
-	public Properties config(){
-		return this.config;
 	}
 
 	public JetbrickTemplateEngine(Properties config) {
@@ -93,16 +83,11 @@ public class JetbrickTemplateEngine implements TemplateEngine {
 		}
 		this.jetEngine = jetEngine;
 	}
-	
-	public JetEngine getJetEngine() {
-		return jetEngine;
-	}
 
 	@Override
 	public void render(ModelAndView modelAndView, Writer writer) throws TemplateException {
-		JetTemplate template = jetEngine.getTemplate(modelAndView.getView());
+
 		Map<String, Object> modelMap = modelAndView.getModel();
-		JetContext context = new JetContext(modelMap.size());
 		
 		Request request = ApplicationWebContext.request();
 		Session session = request.session();
@@ -110,19 +95,39 @@ public class JetbrickTemplateEngine implements TemplateEngine {
 		Set<String> attrs = request.attributes();
 		if (null != attrs && attrs.size() > 0) {
 			for (String attr : attrs) {
-				context.put(attr, request.attribute(attr));
+				modelMap.put(attr, request.attribute(attr));
 			}
 		}
 
 		Set<String> session_attrs = session.attributes();
 		if (null != session_attrs && session_attrs.size() > 0) {
 			for (String attr : session_attrs) {
-				context.put(attr, session.attribute(attr));
+				modelMap.put(attr, session.attribute(attr));
 			}
 		}
 
+		JetContext context = new JetContext(modelMap.size());
 		context.putAll(modelMap);
+
+		String templateName = modelAndView.getView().endsWith(suffix) ? modelAndView.getView() : modelAndView.getView() + suffix;
+
+		JetTemplate template = jetEngine.getTemplate(templateName);
 		template.render(context, writer);
 	}
 
+	public JetEngine getJetEngine() {
+		return jetEngine;
+	}
+
+	public Properties getConfig() {
+		return config;
+	}
+
+	public String getSuffix() {
+		return suffix;
+	}
+
+	public void setSuffix(String suffix) {
+		this.suffix = suffix;
+	}
 }

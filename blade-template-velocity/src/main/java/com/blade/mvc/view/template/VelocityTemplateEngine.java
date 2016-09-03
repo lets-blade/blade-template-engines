@@ -2,6 +2,7 @@ package com.blade.mvc.view.template;
 
 import java.io.Writer;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
 import com.blade.Blade;
@@ -21,42 +22,47 @@ import org.apache.velocity.runtime.resource.loader.JarResourceLoader;
 public class VelocityTemplateEngine implements TemplateEngine {
 
 	private VelocityEngine ve;
-
-	private String suffix = "/templates/";
+	private Properties config;
+	private String templatePath = "/templates/";
+	private String suffix = ".vm";
 
     /**
      * Constructor
      */
     public VelocityTemplateEngine() {
-		ve = new VelocityEngine();
+		this.config = new Properties();
 		if(DynamicClassReader.isJarContext()){
-			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "jar");
-			ve.setProperty("jar.resource.loader.class", JarResourceLoader.class.getName());
-			ve.setProperty("jar.resource.loader.path", Blade.$().webRoot());
+			this.config.setProperty(RuntimeConstants.RESOURCE_LOADER, "jar");
+			this.config.setProperty("jar.resource.loader.class", JarResourceLoader.class.getName());
+			this.config.setProperty("jar.resource.loader.path", Blade.$().webRoot());
 		} else{
-			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
-			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+			this.config.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
+			this.config.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
 		}
-		ve.setProperty(RuntimeConstants.INPUT_ENCODING, "UTF-8");
-		ve.setProperty(RuntimeConstants.OUTPUT_ENCODING, "UTF-8");
-		ve.init();
+		this.config.setProperty(RuntimeConstants.INPUT_ENCODING, "UTF-8");
+		this.config.setProperty(RuntimeConstants.OUTPUT_ENCODING, "UTF-8");
+
+		ve = new VelocityEngine();
+		ve.init(config);
     }
 
-    /**
-     * Constructor
-     *
-     * @param velocityEngine The velocity engine, must not be null.
-     */
+	public VelocityTemplateEngine(String templatePath, String suffix){
+		this.templatePath = templatePath;
+		this.suffix = suffix;
+	}
+
+	public VelocityTemplateEngine(Properties config) {
+		this.config = config;
+		ve = new VelocityEngine();
+		ve.init(config);
+	}
+
     public VelocityTemplateEngine(VelocityEngine velocityEngine) {
         if (velocityEngine == null) {
             throw new IllegalArgumentException("velocityEngine must not be null");
         }
         this.ve = velocityEngine;
     }
-	
-	public VelocityEngine getVelocityEngine() {
-		return this.ve;
-	}
 
 	@Override
 	public void render(ModelAndView modelAndView, Writer writer) throws TemplateException {
@@ -79,9 +85,10 @@ public class VelocityTemplateEngine implements TemplateEngine {
 				modelMap.put(attr, session.attribute(attr));
 			}
 		}
-		
+
 		try {
-			Template template = ve.getTemplate(suffix + modelAndView.getView());
+			String templateName = modelAndView.getView().endsWith(suffix) ? templatePath + modelAndView.getView() : templatePath + modelAndView.getView() + suffix;
+			Template template = ve.getTemplate(templateName);
 			VelocityContext context = new VelocityContext(modelMap);
 			template.merge(context, writer);
 		} catch (Exception e){
@@ -89,4 +96,27 @@ public class VelocityTemplateEngine implements TemplateEngine {
 		}
 	}
 
+	public VelocityEngine getVelocityEngine() {
+		return this.ve;
+	}
+
+	public Properties getConfig() {
+		return config;
+	}
+
+	public String getTemplatePath() {
+		return templatePath;
+	}
+
+	public void setTemplatePath(String templatePath) {
+		this.templatePath = templatePath;
+	}
+
+	public String getSuffix() {
+		return suffix;
+	}
+
+	public void setSuffix(String suffix) {
+		this.suffix = suffix;
+	}
 }
