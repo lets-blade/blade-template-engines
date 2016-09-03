@@ -16,10 +16,6 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.bladejava</groupId>
-			<artifactId>blade-core</artifactId>
-		</dependency>
-		<dependency>
             <groupId>com.mitchellbosecke</groupId>
             <artifactId>pebble</artifactId>
             <version>2.2.2</version>

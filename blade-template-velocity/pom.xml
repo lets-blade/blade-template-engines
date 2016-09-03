@@ -16,10 +16,6 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.bladejava</groupId>
-			<artifactId>blade-core</artifactId>
-		</dependency>
-		<dependency>
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity</artifactId>
             <version>1.7</version>

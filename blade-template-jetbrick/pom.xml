@@ -14,21 +14,16 @@
 	<name>blade-template-jetbrick</name>
 	<url>https://github.com/bladejava/blade-template-engines/tree/master/blade-template-jetbrick</url>
 
+	<properties>
+		<jetbrick-template.version>2.1.2</jetbrick-template.version>
+	</properties>
+
 	<dependencies>
-		<dependency>
-			<groupId>com.bladejava</groupId>
-			<artifactId>blade-core</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>com.github.subchen</groupId>
 			<artifactId>jetbrick-template</artifactId>
+			<version>${jetbrick-template.version}</version>
 		</dependency>
-		<dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.0.1</version>
-            <scope>provided</scope>
-        </dependency>
 	</dependencies>
 
 </project>
