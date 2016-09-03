@@ -17,20 +17,24 @@ package com.blade.mvc.view.template;
 
 import java.io.Writer;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
 import javax.servlet.ServletContext;
 
+import com.blade.Blade;
 import com.blade.context.ApplicationWebContext;
 
+import com.blade.kit.StringKit;
 import com.blade.mvc.http.Request;
 import com.blade.mvc.http.wrapper.Session;
 import com.blade.mvc.view.ModelAndView;
 import com.blade.mvc.view.template.TemplateEngine;
-import jetbrick.template.JetContext;
-import jetbrick.template.JetEngine;
-import jetbrick.template.JetTemplate;
+import jetbrick.template.*;
 import jetbrick.template.TemplateException;
+import jetbrick.template.loader.AbstractResourceLoader;
+import jetbrick.template.loader.ClasspathResourceLoader;
+import jetbrick.template.loader.ResourceLoader;
 import jetbrick.template.web.JetWebEngine;
 
 /**
@@ -43,8 +47,36 @@ public class JetbrickTemplateEngine implements TemplateEngine {
 
 	private JetEngine jetEngine;
 
+	private Properties config = new Properties();
+
 	public JetbrickTemplateEngine() {
-		jetEngine = JetEngine.create();
+		config.put(JetConfig.TEMPLATE_SUFFIX, ".html");
+		if(StringKit.isNotBlank(Blade.$().config().getBasePackage())){
+			config.put(JetConfig.AUTOSCAN_PACKAGES, Blade.$().config().getBasePackage());
+		}
+		String $classpathLoader = "jetbrick.template.loader.ClasspathResourceLoader";
+		String $webLoader = "jetbrick.template.loader.ServletResourceLoader";
+
+		config.put(JetConfig.TEMPLATE_LOADERS, "$classpathLoader, $webLoader");
+
+		config.put("$classpathLoader", $classpathLoader);
+		config.put("$classpathLoader.root", "/templates/");
+		config.put("$classpathLoader.reloadable", true);
+
+		config.put("$webLoader", $webLoader);
+		config.put("$webLoader.root", "/templates/");
+		config.put("$webLoader.reloadable", true);
+
+		jetEngine = JetEngine.create(config);
+	}
+
+	public Properties config(){
+		return this.config;
+	}
+
+	public JetbrickTemplateEngine(Properties config) {
+		this.config = config;
+		jetEngine = JetEngine.create(config);
 	}
 	
 	public JetbrickTemplateEngine(ServletContext servletContext) {
