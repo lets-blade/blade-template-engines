@@ -2,34 +2,44 @@ package com.blade.mvc.view.template;
 
 import java.io.Writer;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
 
+import com.blade.Blade;
+import com.blade.context.DynamicClassReader;
 import com.blade.mvc.http.Request;
 import com.blade.mvc.http.wrapper.Session;
 import com.blade.mvc.view.ModelAndView;
-import com.blade.mvc.view.template.TemplateEngine;
-import com.blade.mvc.view.template.TemplateException;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 
 import com.blade.context.ApplicationWebContext;
-
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
+import org.apache.velocity.runtime.resource.loader.JarResourceLoader;
 
 public class VelocityTemplateEngine implements TemplateEngine {
 
-	private final VelocityEngine velocityEngine;
+	private VelocityEngine ve;
+
+	private String suffix = "/templates/";
 
     /**
      * Constructor
      */
     public VelocityTemplateEngine() {
-        Properties properties = new Properties();
-        properties.setProperty("resource.loader", "class");
-        properties.setProperty("class.resource.loader.class",
-                "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-        velocityEngine = new org.apache.velocity.app.VelocityEngine(properties);
+		ve = new VelocityEngine();
+		if(DynamicClassReader.isJarContext()){
+			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "jar");
+			ve.setProperty("jar.resource.loader.class", JarResourceLoader.class.getName());
+			ve.setProperty("jar.resource.loader.path", Blade.$().webRoot());
+		} else{
+			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
+			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+		}
+		ve.setProperty(RuntimeConstants.INPUT_ENCODING, "UTF-8");
+		ve.setProperty(RuntimeConstants.OUTPUT_ENCODING, "UTF-8");
+		ve.init();
     }
 
     /**
@@ -41,13 +51,13 @@ public class VelocityTemplateEngine implements TemplateEngine {
         if (velocityEngine == null) {
             throw new IllegalArgumentException("velocityEngine must not be null");
         }
-        this.velocityEngine = velocityEngine;
+        this.ve = velocityEngine;
     }
 	
 	public VelocityEngine getVelocityEngine() {
-		return velocityEngine;
+		return this.ve;
 	}
-	
+
 	@Override
 	public void render(ModelAndView modelAndView, Writer writer) throws TemplateException {
 		
@@ -70,10 +80,13 @@ public class VelocityTemplateEngine implements TemplateEngine {
 			}
 		}
 		
-		Template template = velocityEngine.getTemplate(modelAndView.getView());
-		VelocityContext context = new VelocityContext(modelMap);
-        template.merge(context, writer);
-		
+		try {
+			Template template = ve.getTemplate(suffix + modelAndView.getView());
+			VelocityContext context = new VelocityContext(modelMap);
+			template.merge(context, writer);
+		} catch (Exception e){
+			throw new TemplateException(e);
+		}
 	}
 
 }
