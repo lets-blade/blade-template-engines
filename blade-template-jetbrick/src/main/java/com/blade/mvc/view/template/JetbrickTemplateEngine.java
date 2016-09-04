@@ -29,12 +29,9 @@ import com.blade.kit.StringKit;
 import com.blade.mvc.http.Request;
 import com.blade.mvc.http.wrapper.Session;
 import com.blade.mvc.view.ModelAndView;
-import com.blade.mvc.view.template.TemplateEngine;
 import jetbrick.template.*;
 import jetbrick.template.TemplateException;
-import jetbrick.template.loader.AbstractResourceLoader;
-import jetbrick.template.loader.ClasspathResourceLoader;
-import jetbrick.template.loader.ResourceLoader;
+import jetbrick.template.resolver.GlobalResolver;
 import jetbrick.template.web.JetWebEngine;
 
 /**
@@ -117,6 +114,14 @@ public class JetbrickTemplateEngine implements TemplateEngine {
 
 	public JetEngine getJetEngine() {
 		return jetEngine;
+	}
+
+	public JetGlobalContext getGlobalContext(){
+		return jetEngine.getGlobalContext();
+	}
+
+	public GlobalResolver getGlobalResolver(){
+		return jetEngine.getGlobalResolver();
 	}
 
 	public Properties getConfig() {
