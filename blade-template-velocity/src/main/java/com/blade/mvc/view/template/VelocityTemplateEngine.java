@@ -31,14 +31,8 @@ public class VelocityTemplateEngine implements TemplateEngine {
      */
     public VelocityTemplateEngine() {
 		this.config = new Properties();
-		if(DynamicClassReader.isJarContext()){
-			this.config.setProperty(RuntimeConstants.RESOURCE_LOADER, "jar");
-			this.config.setProperty("jar.resource.loader.class", JarResourceLoader.class.getName());
-			this.config.setProperty("jar.resource.loader.path", Blade.$().webRoot());
-		} else{
-			this.config.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
-			this.config.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
-		}
+		this.config.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
+		this.config.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
 		this.config.setProperty(RuntimeConstants.INPUT_ENCODING, "UTF-8");
 		this.config.setProperty(RuntimeConstants.OUTPUT_ENCODING, "UTF-8");
 
