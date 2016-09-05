@@ -49,8 +49,8 @@ public class JetbrickTemplateEngine implements TemplateEngine {
 	public JetbrickTemplateEngine() {
 		config = new Properties();
 		config.put(JetConfig.TEMPLATE_SUFFIX, suffix);
-		if(StringKit.isNotBlank(Blade.$().config().getBasePackage())){
-			config.put(JetConfig.AUTOSCAN_PACKAGES, Blade.$().config().getBasePackage());
+		if(StringKit.isNotBlank(Blade.$().applicationConfig().getBasePackage())){
+			config.put(JetConfig.AUTOSCAN_PACKAGES, Blade.$().applicationConfig().getBasePackage());
 		}
 		String $classpathLoader = "jetbrick.template.loader.ClasspathResourceLoader";
 		config.put(JetConfig.TEMPLATE_LOADERS, "$classpathLoader");
