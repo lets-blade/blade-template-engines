@@ -5,15 +5,12 @@ import java.io.Writer;
 import java.util.Map;
 import java.util.Set;
 
-import com.blade.context.ApplicationWebContext;
+import com.blade.context.WebApplicationContext;
 import com.blade.mvc.http.Request;
 import com.blade.mvc.http.wrapper.Session;
 import com.blade.mvc.view.ModelAndView;
-import com.blade.mvc.view.template.TemplateEngine;
-import com.blade.mvc.view.template.TemplateException;
 import com.mitchellbosecke.pebble.PebbleEngine;
 import com.mitchellbosecke.pebble.error.PebbleException;
-import com.mitchellbosecke.pebble.loader.ClasspathLoader;
 import com.mitchellbosecke.pebble.loader.Loader;
 import com.mitchellbosecke.pebble.template.PebbleTemplate;
 
@@ -34,10 +31,10 @@ public class PebbleTemplateEngine implements TemplateEngine {
 	/**
 	 * Construct a new template engine using pebble with an engine using a special loader.
 	 */
-	public PebbleTemplateEngine(Loader loader) {
+	public <T> PebbleTemplateEngine(Loader<T> loader) {
 		this.engine = new PebbleEngine.Builder().loader(loader).build();
 	}
-
+	
 	/**
 	 * Construct a new template engine using pebble with a specified engine.
 	 *
@@ -56,7 +53,7 @@ public class PebbleTemplateEngine implements TemplateEngine {
 		
 		Map<String, Object> modelMap = modelAndView.getModel();
 		
-		Request request = ApplicationWebContext.request();
+		Request request = WebApplicationContext.request();
 		Session session = request.session();
 
 		Set<String> attrs = request.attributes();

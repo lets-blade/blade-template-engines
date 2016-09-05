@@ -23,7 +23,7 @@ import java.util.Set;
 import javax.servlet.ServletContext;
 
 import com.blade.Blade;
-import com.blade.context.ApplicationWebContext;
+import com.blade.context.WebApplicationContext;
 
 import com.blade.kit.StringKit;
 import com.blade.mvc.http.Request;
@@ -86,7 +86,7 @@ public class JetbrickTemplateEngine implements TemplateEngine {
 
 		Map<String, Object> modelMap = modelAndView.getModel();
 		
-		Request request = ApplicationWebContext.request();
+		Request request = WebApplicationContext.request();
 		Session session = request.session();
 
 		Set<String> attrs = request.attributes();

@@ -24,7 +24,6 @@
 		<module>blade-template-jetbrick</module>
 		<module>blade-template-pebble</module>
 		<module>blade-template-velocity</module>
-		<module>blade-template-beetl</module>
 	</modules>
 
 	<repositories>

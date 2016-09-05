@@ -5,19 +5,16 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import com.blade.Blade;
-import com.blade.context.DynamicClassReader;
-import com.blade.mvc.http.Request;
-import com.blade.mvc.http.wrapper.Session;
-import com.blade.mvc.view.ModelAndView;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-
-import com.blade.context.ApplicationWebContext;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
-import org.apache.velocity.runtime.resource.loader.JarResourceLoader;
+
+import com.blade.context.WebApplicationContext;
+import com.blade.mvc.http.Request;
+import com.blade.mvc.http.wrapper.Session;
+import com.blade.mvc.view.ModelAndView;
 
 public class VelocityTemplateEngine implements TemplateEngine {
 
@@ -25,7 +22,7 @@ public class VelocityTemplateEngine implements TemplateEngine {
 	private Properties config;
 	private String templatePath = "/templates/";
 	private String suffix = ".vm";
-
+	
     /**
      * Constructor
      */
@@ -63,7 +60,7 @@ public class VelocityTemplateEngine implements TemplateEngine {
 		
 		Map<String, Object> modelMap = modelAndView.getModel();
 		
-		Request request = ApplicationWebContext.request();
+		Request request = WebApplicationContext.request();
 		Session session = request.session();
 
 		Set<String> attrs = request.attributes();
