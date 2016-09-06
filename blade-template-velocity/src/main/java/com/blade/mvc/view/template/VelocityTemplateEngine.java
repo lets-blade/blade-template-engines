@@ -11,7 +11,7 @@ import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
-import com.blade.context.WebApplicationContext;
+import com.blade.context.WebContextHolder;
 import com.blade.mvc.http.Request;
 import com.blade.mvc.http.wrapper.Session;
 import com.blade.mvc.view.ModelAndView;
@@ -60,7 +60,7 @@ public class VelocityTemplateEngine implements TemplateEngine {
 		
 		Map<String, Object> modelMap = modelAndView.getModel();
 		
-		Request request = WebApplicationContext.request();
+		Request request = WebContextHolder.request();
 		Session session = request.session();
 
 		Set<String> attrs = request.attributes();
