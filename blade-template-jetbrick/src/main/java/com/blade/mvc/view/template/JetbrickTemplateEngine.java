@@ -15,16 +15,7 @@
  */
 package com.blade.mvc.view.template;
 
-import java.io.Writer;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-
-import javax.servlet.ServletContext;
-
-import com.blade.Blade;
 import com.blade.context.WebContextHolder;
-
 import com.blade.kit.StringKit;
 import com.blade.mvc.http.Request;
 import com.blade.mvc.http.wrapper.Session;
@@ -33,6 +24,14 @@ import jetbrick.template.*;
 import jetbrick.template.TemplateException;
 import jetbrick.template.resolver.GlobalResolver;
 import jetbrick.template.web.JetWebEngine;
+
+import javax.servlet.ServletContext;
+import java.io.Writer;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+
+import static com.blade.Blade.$;
 
 /**
  * JetbrickTemplateEngine
@@ -49,8 +48,8 @@ public class JetbrickTemplateEngine implements TemplateEngine {
 	public JetbrickTemplateEngine() {
 		config = new Properties();
 		config.put(JetConfig.TEMPLATE_SUFFIX, suffix);
-		if(StringKit.isNotBlank(Blade.$().applicationConfig().getBasePackage())){
-			config.put(JetConfig.AUTOSCAN_PACKAGES, Blade.$().applicationConfig().getBasePackage());
+		if(StringKit.isNotBlank($().configuration().getBasePackage())){
+			config.put(JetConfig.AUTOSCAN_PACKAGES, $().configuration().getBasePackage());
 		}
 		String $classpathLoader = "jetbrick.template.loader.ClasspathResourceLoader";
 		config.put(JetConfig.TEMPLATE_LOADERS, "$classpathLoader");

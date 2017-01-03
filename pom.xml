@@ -12,11 +12,11 @@
 	<url>https://github.com/bladejava/blade-template-engines</url>
 
 	<properties>
-		<maven.compiler.source>1.6</maven.compiler.source>
-		<maven.compiler.target>1.6</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<servlet.version>3.0.1</servlet.version>
-		<blade-core.version>1.6.6</blade-core.version>
+		<blade-core.version>1.7.0-alpha</blade-core.version>
 		<junit.version>4.12</junit.version>
 	</properties>
 
@@ -44,6 +44,7 @@
 			<groupId>com.bladejava</groupId>
 			<artifactId>blade-core</artifactId>
 			<version>${blade-core.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -66,8 +67,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.8</source>
+					<target>1.8</target>
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>

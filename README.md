@@ -3,4 +3,3 @@
 - blade-template-jetbrick
 - blade-template-pebble
 - blade-template-velocity
-- blade-template-beetl
