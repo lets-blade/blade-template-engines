@@ -23,9 +23,7 @@ import com.blade.mvc.view.ModelAndView;
 import jetbrick.template.*;
 import jetbrick.template.TemplateException;
 import jetbrick.template.resolver.GlobalResolver;
-import jetbrick.template.web.JetWebEngine;
 
-import javax.servlet.ServletContext;
 import java.io.Writer;
 import java.util.Map;
 import java.util.Properties;
@@ -55,7 +53,7 @@ public class JetbrickTemplateEngine implements TemplateEngine {
 		config.put(JetConfig.TEMPLATE_LOADERS, "$classpathLoader");
 		config.put("$classpathLoader", $classpathLoader);
 		config.put("$classpathLoader.root", "/templates/");
-		config.put("$classpathLoader.reloadable", true);
+		config.put("$classpathLoader.reloadable", "true");
 
 		jetEngine = JetEngine.create(config);
 	}
@@ -65,9 +63,6 @@ public class JetbrickTemplateEngine implements TemplateEngine {
 		jetEngine = JetEngine.create(config);
 	}
 	
-	public JetbrickTemplateEngine(ServletContext servletContext) {
-		jetEngine = JetWebEngine.create(servletContext);
-	}
 
 	public JetbrickTemplateEngine(String conf) {
 		jetEngine = JetEngine.create(conf);

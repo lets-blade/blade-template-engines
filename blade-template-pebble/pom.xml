@@ -10,7 +10,7 @@
 	
 	<artifactId>blade-template-pebble</artifactId>
 	<packaging>jar</packaging>
-	<version>0.0.4</version>
+	<version>0.0.5</version>
 	<name>blade-template-pebble</name>
 	<url>https://github.com/bladejava/blade-template-engines/tree/master/blade-template-pebble</url>
 

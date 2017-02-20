@@ -35,8 +35,8 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<servlet.version>3.0.1</servlet.version>
-		<blade-core.version>1.7.0-alpha</blade-core.version>
+		<servlet.version>3.1.0</servlet.version>
+		<blade-core.version>1.7.0</blade-core.version>
 		<junit.version>4.12</junit.version>
 	</properties>
 
@@ -44,6 +44,7 @@
 		<module>blade-template-jetbrick</module>
 		<module>blade-template-pebble</module>
 		<module>blade-template-velocity</module>
+		<module>blade-template-jinja</module>
 	</modules>
 
 	<repositories>
@@ -60,6 +61,12 @@
 	</repositories>
 
 	<dependencies>
+		<dependency>
+			<groupId>com.bladejava</groupId>
+			<artifactId>blade-kit</artifactId>
+			<version>1.4.0-beta</version>
+			<scope>compile</scope>
+		</dependency>
 		<dependency>
 			<groupId>com.bladejava</groupId>
 			<artifactId>blade-core</artifactId>
@@ -133,9 +140,9 @@
 								</goals>
 							</execution>
 						</executions>
-						<configuration>
+						<!--<configuration>
 							<testFailureIgnore>true</testFailureIgnore>
-						</configuration>
+						</configuration>-->
 					</plugin>
 					<!--  Javadoc  -->
 					<plugin>
