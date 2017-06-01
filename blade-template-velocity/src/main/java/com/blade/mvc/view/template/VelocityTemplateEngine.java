@@ -5,16 +5,17 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import com.blade.exception.TemplateException;
+import com.blade.http.Request;
+import com.blade.http.Session;
+import com.blade.mvc.WebContext;
+import com.blade.mvc.ui.ModelAndView;
+import com.blade.mvc.ui.template.TemplateEngine;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
-
-import com.blade.context.WebContextHolder;
-import com.blade.mvc.http.Request;
-import com.blade.mvc.http.wrapper.Session;
-import com.blade.mvc.view.ModelAndView;
 
 public class VelocityTemplateEngine implements TemplateEngine {
 
@@ -59,9 +60,9 @@ public class VelocityTemplateEngine implements TemplateEngine {
 	public void render(ModelAndView modelAndView, Writer writer) throws TemplateException {
 		
 		Map<String, Object> modelMap = modelAndView.getModel();
-		
-		Request request = WebContextHolder.request();
-		Session session = request.session();
+
+        Request request = WebContext.request();
+        Session session = request.session();
 
 		Set<String> attrs = request.attributes();
 		if (null != attrs && attrs.size() > 0) {
