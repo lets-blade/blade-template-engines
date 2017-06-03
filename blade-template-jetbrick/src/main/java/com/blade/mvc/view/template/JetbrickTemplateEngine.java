@@ -15,11 +15,11 @@
  */
 package com.blade.mvc.view.template;
 
-import com.blade.http.Request;
-import com.blade.http.Response;
-import com.blade.http.Session;
-import com.blade.kit.BladeKit;
+import com.blade.BladeException;
 import com.blade.mvc.WebContext;
+import com.blade.mvc.http.Request;
+import com.blade.mvc.http.Response;
+import com.blade.mvc.http.Session;
 import com.blade.mvc.ui.ModelAndView;
 import com.blade.mvc.ui.template.TemplateEngine;
 import jetbrick.template.*;
@@ -28,7 +28,6 @@ import jetbrick.template.resolver.GlobalResolver;
 import java.io.Writer;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
 /**
  * JetbrickTemplateEngine
@@ -44,9 +43,12 @@ public class JetbrickTemplateEngine implements TemplateEngine {
 
     public JetbrickTemplateEngine() {
         config.put(JetConfig.TEMPLATE_SUFFIX, suffix);
-//        if(null != basePackage && !"".equals(basePackage)){
-//            config.put(JetConfig.AUTOSCAN_PACKAGES, basePackage);
-//        }
+
+        Class<?> bootClass = WebContext.blade().bootClass();
+        if (null != bootClass) {
+            config.put(JetConfig.AUTOSCAN_PACKAGES, bootClass.getPackage().getName());
+        }
+
         String $classpathLoader = "jetbrick.template.loader.ClasspathResourceLoader";
         config.put(JetConfig.TEMPLATE_LOADERS, "$classpathLoader");
         config.put("$classpathLoader", $classpathLoader);
@@ -80,22 +82,23 @@ public class JetbrickTemplateEngine implements TemplateEngine {
         Request request = WebContext.request();
         Response response = WebContext.response();
         Session session = request.session();
-        Set<String> attrs = request.attributes();
-        if (BladeKit.isNotEmpty(attrs)) {
-            attrs.forEach(attr -> modelMap.put(attr, request.attribute(attr)));
-        }
 
-        Set<String> session_attrs = session.attributes();
-        if (BladeKit.isNotEmpty(session_attrs)) {
-            session_attrs.forEach(attr -> modelMap.put(attr, request.attribute(attr)));
+        modelMap.putAll(request.attributes());
+
+        if (null != session) {
+            modelMap.putAll(session.attributes());
         }
 
         JetContext context = new JetContext(modelMap.size());
         context.putAll(modelMap);
 
         String templateName = modelAndView.getView().endsWith(suffix) ? modelAndView.getView() : modelAndView.getView() + suffix;
-        JetTemplate template = jetEngine.getTemplate(templateName);
-        template.render(context, writer);
+        try {
+            JetTemplate template = jetEngine.getTemplate(templateName);
+            template.render(context, writer);
+        } catch (Exception e) {
+            throw new BladeException(e);
+        }
     }
 
     public JetEngine getJetEngine() {
