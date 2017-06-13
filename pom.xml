@@ -5,7 +5,7 @@
 
     <groupId>com.bladejava</groupId>
     <artifactId>blade-template-engines</artifactId>
-    <version>1.0</version>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
 
     <name>blade-template-engines</name>
@@ -104,6 +104,22 @@
             </plugin>
         </plugins>
     </build>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>oss</id>
+            <url>
+                https://oss.sonatype.org/content/repositories/snapshots/
+            </url>
+        </snapshotRepository>
+        <repository>
+            <id>oss</id>
+            <url>
+                https://oss.sonatype.org/service/local/staging/deploy/maven2/
+            </url>
+        </repository>
+
+    </distributionManagement>
 
     <profiles>
         <profile>
