@@ -1,6 +1,7 @@
 package com.blade.mvc.view.template;
 
-import com.blade.BladeException;
+import com.blade.exception.BladeException;
+import com.blade.kit.Assert;
 import com.blade.mvc.WebContext;
 import com.blade.mvc.http.Request;
 import com.blade.mvc.http.Session;
@@ -48,7 +49,7 @@ public class PebbleTemplateEngine implements TemplateEngine {
     }
 
     @Override
-    public void render(ModelAndView modelAndView, Writer writer) {
+    public void render(ModelAndView modelAndView, Writer writer) throws BladeException {
 
         Map<String, Object> modelMap = modelAndView.getModel();
 
@@ -65,7 +66,7 @@ public class PebbleTemplateEngine implements TemplateEngine {
             PebbleTemplate template = engine.getTemplate(modelAndView.getView());
             template.evaluate(writer, modelMap);
         } catch (Exception e) {
-            throw new BladeException(e);
+            Assert.throwException(e);
         }
     }
 

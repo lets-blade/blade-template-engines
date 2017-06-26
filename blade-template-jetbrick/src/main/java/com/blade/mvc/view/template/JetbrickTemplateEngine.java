@@ -15,7 +15,8 @@
  */
 package com.blade.mvc.view.template;
 
-import com.blade.BladeException;
+import com.blade.exception.BladeException;
+import com.blade.kit.Assert;
 import com.blade.mvc.WebContext;
 import com.blade.mvc.http.Request;
 import com.blade.mvc.http.Response;
@@ -73,7 +74,7 @@ public class JetbrickTemplateEngine implements TemplateEngine {
     }
 
     @Override
-    public void render(ModelAndView modelAndView, Writer writer) throws TemplateException {
+    public void render(ModelAndView modelAndView, Writer writer) throws BladeException {
         if (null == jetEngine) {
             this.jetEngine = JetEngine.create(config);
         }
@@ -97,7 +98,7 @@ public class JetbrickTemplateEngine implements TemplateEngine {
             JetTemplate template = jetEngine.getTemplate(templateName);
             template.render(context, writer);
         } catch (Exception e) {
-            throw new BladeException(e);
+            Assert.throwException(e);
         }
     }
 
