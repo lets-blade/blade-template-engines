@@ -81,7 +81,6 @@ public class JetbrickTemplateEngine implements TemplateEngine {
         Map<String, Object> modelMap = modelAndView.getModel();
 
         Request request = WebContext.request();
-        Response response = WebContext.response();
         Session session = request.session();
 
         modelMap.putAll(request.attributes());
