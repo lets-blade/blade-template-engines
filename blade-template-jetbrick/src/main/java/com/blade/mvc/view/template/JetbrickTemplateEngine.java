@@ -19,12 +19,13 @@ import com.blade.exception.BladeException;
 import com.blade.kit.Assert;
 import com.blade.mvc.WebContext;
 import com.blade.mvc.http.Request;
-import com.blade.mvc.http.Response;
 import com.blade.mvc.http.Session;
 import com.blade.mvc.ui.ModelAndView;
 import com.blade.mvc.ui.template.TemplateEngine;
 import jetbrick.template.*;
 import jetbrick.template.resolver.GlobalResolver;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Writer;
 import java.util.Map;
@@ -38,9 +39,14 @@ import java.util.Properties;
  */
 public class JetbrickTemplateEngine implements TemplateEngine {
 
+    @Getter
+    @Setter
     private JetEngine jetEngine;
+    @Getter
     private Properties config = new Properties();
-    private String suffix = ".html";
+    @Getter
+    @Setter
+    private String     suffix = ".html";
 
     public JetbrickTemplateEngine() {
         config.put(JetConfig.TEMPLATE_SUFFIX, suffix);
@@ -50,9 +56,9 @@ public class JetbrickTemplateEngine implements TemplateEngine {
             config.put(JetConfig.AUTOSCAN_PACKAGES, bootClass.getPackage().getName());
         }
 
-        String $classpathLoader = "jetbrick.template.loader.ClasspathResourceLoader";
+        String classpathLoader = "jetbrick.template.loader.ClasspathResourceLoader";
         config.put(JetConfig.TEMPLATE_LOADERS, "$classpathLoader");
-        config.put("$classpathLoader", $classpathLoader);
+        config.put("$classpathLoader", classpathLoader);
         config.put("$classpathLoader.root", "/templates/");
         config.put("$classpathLoader.reloadable", "true");
     }
@@ -101,14 +107,6 @@ public class JetbrickTemplateEngine implements TemplateEngine {
         }
     }
 
-    public JetEngine getJetEngine() {
-        return jetEngine;
-    }
-
-    public void setJetEngine(JetEngine jetEngine) {
-        this.jetEngine = jetEngine;
-    }
-
     public JetGlobalContext getGlobalContext() {
         if (null == jetEngine) {
             this.jetEngine = JetEngine.create(config);
@@ -123,20 +121,9 @@ public class JetbrickTemplateEngine implements TemplateEngine {
         return jetEngine.getGlobalResolver();
     }
 
-    public Properties getConfig() {
-        return config;
-    }
-
     public TemplateEngine addConfig(String key, String value) {
         config.put(key, value);
         return this;
     }
 
-    public String getSuffix() {
-        return suffix;
-    }
-
-    public void setSuffix(String suffix) {
-        this.suffix = suffix;
-    }
 }
