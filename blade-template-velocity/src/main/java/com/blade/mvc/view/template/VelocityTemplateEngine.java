@@ -1,5 +1,6 @@
 package com.blade.mvc.view.template;
 
+import com.blade.exception.TemplateException;
 import com.blade.mvc.WebContext;
 import com.blade.mvc.http.Request;
 import com.blade.mvc.http.Session;
@@ -74,7 +75,7 @@ public class VelocityTemplateEngine implements TemplateEngine {
             VelocityContext context = new VelocityContext(modelMap);
             template.merge(context, writer);
         } catch (Exception e) {
-            throw e;
+            throw new TemplateException(e);
         }
     }
 
