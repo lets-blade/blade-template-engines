@@ -20,7 +20,7 @@ import java.util.Map;
  */
 public class FreeMarkerTemplateEngine implements TemplateEngine {
     private static final String DEFAULT_ENCODING = "UTF-8";
-
+    private  String suffix =".ftl";
     private Configuration configuration = null;
     public FreeMarkerTemplateEngine() {
         try {
@@ -51,12 +51,16 @@ public class FreeMarkerTemplateEngine implements TemplateEngine {
             model.putAll(session.attributes());
         }
         try {
-            Template template = configuration.getTemplate(view);
+            Template template = configuration.getTemplate(view+ suffix);
             template.process(model,writer);
         } catch (IOException e) {
             throw new TemplateException(e);
         } catch (freemarker.template.TemplateException e) {
             throw new TemplateException(e);
         }
+    }
+
+    public void setSuffix(String suffix){
+        this.suffix = suffix;
     }
 }
