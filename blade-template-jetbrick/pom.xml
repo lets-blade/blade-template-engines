@@ -10,12 +10,12 @@
 
     <artifactId>blade-template-jetbrick</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.2</version>
+    <version>0.1.3</version>
     <name>blade-template-jetbrick</name>
     <url>https://github.com/bladejava/blade-template-engines/tree/master/blade-template-jetbrick</url>
 
     <properties>
-        <jetbrick-template.version>2.1.5</jetbrick-template.version>
+        <jetbrick-template.version>2.1.6</jetbrick-template.version>
     </properties>
 
     <dependencies>
