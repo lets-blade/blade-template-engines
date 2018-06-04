@@ -23,14 +23,9 @@ public class FreeMarkerTemplateEngine implements TemplateEngine {
     private  String suffix =".ftl";
     private Configuration configuration = null;
     public FreeMarkerTemplateEngine() {
-        try {
-            configuration = new Configuration();
-            configuration.setEncoding(Locale.CHINA, DEFAULT_ENCODING);
-            String classPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-            configuration.setDirectoryForTemplateLoading(new File(classPath+"/templates/"));
-        } catch (IOException e) {
-            throw new RuntimeException(e.getMessage());
-        }
+        configuration = new Configuration();
+        configuration.setEncoding(Locale.CHINA, DEFAULT_ENCODING);
+        configuration.setClassForTemplateLoading(FreeMarkerTemplateEngine.class, "/templates/");
     }
 
     public FreeMarkerTemplateEngine(Configuration configuration) {
