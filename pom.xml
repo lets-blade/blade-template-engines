@@ -9,7 +9,7 @@
     <packaging>pom</packaging>
 
     <name>blade-template-engines</name>
-    <url>https://github.com/bladejava/blade-template-engines</url>
+    <url>https://github.com/lets-blade/blade-template-engines</url>
     <description>blade template engines</description>
 
     <licenses>
