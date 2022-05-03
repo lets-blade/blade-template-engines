@@ -3,9 +3,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.bladejava</groupId>
+    <groupId>com.hellokaton</groupId>
     <artifactId>blade-template-engines</artifactId>
-    <version>1.0.1</version>
+    <version>1.2.0</version>
     <packaging>pom</packaging>
 
     <name>blade-template-engines</name>
@@ -21,15 +21,15 @@
 
     <developers>
         <developer>
-            <name>biezhi</name>
-            <email>biezhi.me@gmail.com</email>
+            <name>hellokaton</name>
+            <email>hellokaton@gmail.com</email>
         </developer>
     </developers>
 
     <scm>
-        <connection>scm:git@github.com:biezhi/blade.git</connection>
-        <developerConnection>scm:git@github.com:biezhi/blade.git</developerConnection>
-        <url>git@github.com:biezhi/blade.git</url>
+        <connection>scm:git@github.com:lets-blade/blade-template-engines.git</connection>
+        <developerConnection>scm:git@github.com:lets-blade/blade-template-engines.git</developerConnection>
+        <url>git@github.com:lets-blade/blade-template-engines.git</url>
     </scm>
 
     <properties>
@@ -37,8 +37,8 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <servlet.version>3.1.0</servlet.version>
-        <blade-mvc.version>2.0.8-R2</blade-mvc.version>
-        <junit.version>4.12</junit.version>
+        <blade-core.version>2.1.0.BETA</blade-core.version>
+        <junit.version>4.13.2</junit.version>
     </properties>
 
     <modules>
@@ -63,9 +63,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.bladejava</groupId>
-            <artifactId>blade-mvc</artifactId>
-            <version>${blade-mvc.version}</version>
+            <groupId>com.hellokaton</groupId>
+            <artifactId>blade-core</artifactId>
+            <version>${blade-core.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -77,8 +77,8 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.16.20</version>
-            <scope>compile</scope>
+            <version>1.18.24</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
@@ -128,12 +128,16 @@
             <id>release</id>
             <distributionManagement>
                 <snapshotRepository>
-                    <id>oss</id>
-                    <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+                    <id>ossrh</id>
+                    <url>
+                        https://s01.oss.sonatype.org/content/repositories/snapshots/
+                    </url>
                 </snapshotRepository>
                 <repository>
-                    <id>oss</id>
-                    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                    <id>ossrh</id>
+                    <url>
+                        https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/
+                    </url>
                 </repository>
             </distributionManagement>
             <build>

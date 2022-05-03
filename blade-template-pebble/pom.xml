@@ -3,14 +3,14 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>com.bladejava</groupId>
+		<groupId>com.hellokaton</groupId>
 		<artifactId>blade-template-engines</artifactId>
-		<version>1.0.1</version>
+		<version>1.2.0</version>
 	</parent>
 	
 	<artifactId>blade-template-pebble</artifactId>
 	<packaging>jar</packaging>
-	<version>0.0.7</version>
+	<version>0.1.0</version>
 	<name>blade-template-pebble</name>
 	<url>https://github.com/bladejava/blade-template-engines/tree/master/blade-template-pebble</url>
 

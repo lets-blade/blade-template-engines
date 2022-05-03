@@ -1,15 +1,14 @@
-package com.blade.mvc.view.template;
+package com.hellokaton.blade.template;
 
-import com.blade.exception.TemplateException;
-import com.blade.mvc.WebContext;
-import com.blade.mvc.http.Request;
-import com.blade.mvc.http.Session;
-import com.blade.mvc.ui.ModelAndView;
-import com.blade.mvc.ui.template.TemplateEngine;
+import com.hellokaton.blade.exception.TemplateException;
+import com.hellokaton.blade.mvc.WebContext;
+import com.hellokaton.blade.mvc.http.Request;
+import com.hellokaton.blade.mvc.http.Session;
+import com.hellokaton.blade.mvc.ui.ModelAndView;
+import com.hellokaton.blade.mvc.ui.template.TemplateEngine;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Locale;
@@ -48,9 +47,7 @@ public class FreeMarkerTemplateEngine implements TemplateEngine {
         try {
             Template template = configuration.getTemplate(view+ suffix);
             template.process(model,writer);
-        } catch (IOException e) {
-            throw new TemplateException(e);
-        } catch (freemarker.template.TemplateException e) {
+        } catch (IOException | freemarker.template.TemplateException e) {
             throw new TemplateException(e);
         }
     }
