@@ -10,7 +10,7 @@
 
     <artifactId>blade-template-jetbrick</artifactId>
     <packaging>jar</packaging>
-    <version>0.2.0</version>
+    <version>0.2.1</version>
     <name>blade-template-jetbrick</name>
     <url>https://github.com/bladejava/blade-template-engines/tree/master/blade-template-jetbrick</url>
 
@@ -23,6 +23,12 @@
             <groupId>com.github.subchen</groupId>
             <artifactId>jetbrick-template</artifactId>
             <version>${jetbrick-template.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.24</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
