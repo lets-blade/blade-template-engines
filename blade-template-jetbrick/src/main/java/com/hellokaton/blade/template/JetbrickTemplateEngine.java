@@ -27,29 +27,29 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Writer;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Properties;
 
 /**
  * JetbrickTemplateEngine
  *
- * @author <a href="mailto:biezhi.me@gmail.com" target="_blank">biezhi</a>
- * @since 1.0
+ * @author <a href="mailto:hellokaton@gmail.com" target="_blank">hellokaton</a>
+ * @since 0.2.1
  */
+@Getter
+@Setter
 public class JetbrickTemplateEngine implements TemplateEngine {
 
-    @Getter
-    @Setter
     private JetEngine jetEngine;
-    @Getter
     private Properties config = new Properties();
-    @Getter
-    @Setter
-    private String     suffix = ".html";
 
     public JetbrickTemplateEngine() {
-        config.put(JetConfig.TEMPLATE_SUFFIX, suffix);
+        this(new JetbrickOptions());
+    }
 
+    public JetbrickTemplateEngine(JetbrickOptions options) {
+        config.put(JetConfig.TEMPLATE_SUFFIX, options.getTemplateSuffix());
         Class<?> bootClass = WebContext.blade().bootClass();
         if (null != bootClass) {
             config.put(JetConfig.AUTOSCAN_PACKAGES, bootClass.getPackage().getName());
@@ -58,8 +58,13 @@ public class JetbrickTemplateEngine implements TemplateEngine {
         String classpathLoader = "jetbrick.template.loader.ClasspathResourceLoader";
         config.put(JetConfig.TEMPLATE_LOADERS, "$classpathLoader");
         config.put("$classpathLoader", classpathLoader);
-        config.put("$classpathLoader.root", "/templates/");
-        config.put("$classpathLoader.reloadable", "true");
+        config.put("$classpathLoader.root", "/" + options.getTemplateRootDir() + "/");
+        config.put("$classpathLoader.reloadable", options.isReloadable());
+
+        if (null != options.getExtConfig() && !options.getExtConfig().isEmpty()) {
+            config.putAll(options.getExtConfig());
+        }
+        jetEngine = JetEngine.create(config);
     }
 
     public JetbrickTemplateEngine(Properties config) {
@@ -94,6 +99,8 @@ public class JetbrickTemplateEngine implements TemplateEngine {
             modelMap.putAll(session.attributes());
         }
 
+        String suffix = config.getProperty(JetConfig.TEMPLATE_SUFFIX, ".html");
+
         JetContext context = new JetContext(modelMap.size());
         context.putAll(modelMap);
 
@@ -120,8 +127,32 @@ public class JetbrickTemplateEngine implements TemplateEngine {
         return jetEngine.getGlobalResolver();
     }
 
-    public TemplateEngine addConfig(String key, String value) {
+    public JetbrickTemplateEngine addConfig(String key, String value) {
         config.put(key, value);
+        return this;
+    }
+
+    public JetbrickTemplateEngine registerMethods(Class<?> methodType) {
+        GlobalResolver globalResolver = getGlobalResolver();
+        globalResolver.registerMethods(methodType);
+        return this;
+    }
+
+    public JetbrickTemplateEngine autoScan(String... packageNames) {
+        GlobalResolver globalResolver = getGlobalResolver();
+        globalResolver.scan(Arrays.asList(packageNames), true);
+        return this;
+    }
+
+    public JetbrickTemplateEngine registerFunctions(Class<?> functionType) {
+        GlobalResolver globalResolver = getGlobalResolver();
+        globalResolver.registerFunctions(functionType);
+        return this;
+    }
+
+    public JetbrickTemplateEngine registerTags(Class<?> tagType) {
+        GlobalResolver globalResolver = getGlobalResolver();
+        globalResolver.registerTags(tagType);
         return this;
     }
 
